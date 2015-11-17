@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">BinCalc</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="msg_binary_input_error">Can not input larger than one.</string>
+    <string name="msg_octonary_input_error">Can not input larger than one.</string>
+
+    <string name="hint_decimal">DECIMAL</string>
+    <string name="hint_binary">BINARY</string>
+    <string name="hint_octonary">OCTONARY</string>
+    <string name="hint_hex">HEXADECIMAL</string>
+
+    <string name="DEC">DEC</string>
+    <string name="BIN">BIN</string>
+    <string name="OCT">OCT</string>
+    <string name="HEX">HEX</string>
+</resources>
