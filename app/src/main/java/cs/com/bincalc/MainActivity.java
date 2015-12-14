@@ -3,18 +3,19 @@ package cs.com.bincalc;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Super {
     private TextView tevDecimal, tevBinary, tevOctonary;
-    private Button[] operButtons;
+    //private Button[] operButtons;
     private Button[] typeButtons;
-
+    private Button btnPlus, btnMinus, btnDivide, btnMultiple, btnEquals;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,6 @@ public class MainActivity extends Super {
 
         Button btnAc, btnPn, btnDel;
         Button btnDec, btnBin, btnOct, btnHex;
-        Button btnPlus, btnMinus, btnDivide, btnMultiple, btnEquals;
         Button btnZero, btnOne, btnTwo, btnThree, btnFour,
                 btnFive, btnSix, btnSeven, btnEight, btnNine;
 
@@ -45,7 +45,7 @@ public class MainActivity extends Super {
         btnEquals = (Button)findViewById(R.id.btnEquals);
         btnPn = (Button)findViewById(R.id.btnPN);
 
-        operButtons = new Button[] { btnPlus, btnMinus, btnMultiple, btnDivide};
+        //operButtons = new Button[] { btnPlus, btnMinus, btnMultiple, btnDivide};
         typeButtons = new Button[] { btnBin, btnOct, btnDec, btnHex};
 
         btnZero = (Button)findViewById(R.id.btnZero);
@@ -83,15 +83,13 @@ public class MainActivity extends Super {
                 btnHex.callOnClick();
                 break;
         }
-
-        DisplayMetrics display = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(display);
-        float fontSize = AppContext.px2sp(tevDecimal.getTextSize(), display.scaledDensity);
-        AppContext.putValue(AppContext.KEY_NUM_FONT_SIZE, fontSize);
     }
 
     protected void onResume() {
         super.onResume();
+
+        float fontSize = tevDecimal.getTextSize();
+        AppContext.putValue(AppContext.KEY_NUM_FONT_SIZE, fontSize);
     }
 
     @Override
@@ -109,6 +107,8 @@ public class MainActivity extends Super {
             super.onWindowFocusChanged(hasFocus);
 //            AppContext.putValue(AppContext.KEY_NUM_VER_PADDING, tevDecimal.getTotalPaddingTop() + tevDecimal.getTotalPaddingBottom());
 //            AppContext.putValue(AppContext.KEY_NUM_HOR_PADDING, tevDecimal.getTotalPaddingStart() + tevDecimal.getTotalPaddingEnd());
+            Log.d("TAG", "textColor: " + typeButtons[0].getCurrentTextColor());
+            Log.d("TAG", "textColor: " + typeButtons[0].getTextColors());
         }
     }
 
@@ -120,6 +120,11 @@ public class MainActivity extends Super {
                     reset();
                     break;
                 case R.id.btnPN:
+                    if (tevDecimal.getText().equals("") || tevDecimal.getText().equals("0")) {
+                        reset();
+                        break;
+                    }
+
                     Long value = Long.parseLong(String.valueOf(tevDecimal.getText()));
                     inverse(value);
                     break;
@@ -166,25 +171,31 @@ public class MainActivity extends Super {
                 calc();
             }
 
+            resetOperButtonBg();
+
             switch(v.getId()) {
                 case R.id.btnPlus:
                     myOperator = AppContext.OPER_PLUS;
+                    v.setBackgroundResource(R.mipmap.plus_active);
                     break;
                 case R.id.btnMinus:
                     myOperator = AppContext.OPER_MINUS;
+                    v.setBackgroundResource(R.mipmap.minus_active);
                     break;
                 case R.id.btnDivide:
                     myOperator = AppContext.OPER_DIVIDE;
+                    v.setBackgroundResource(R.mipmap.divide_active);
                     break;
                 case R.id.btnMultip:
                     myOperator = AppContext.OPER_MULTIP;
+                    v.setBackgroundResource(R.mipmap.multiply_active);
                     break;
                 case R.id.btnEquals:
                     myOperator = AppContext.OPER_EQUALS;
                     break;
             }
 
-            resetOperButtonPressedStatus(operButtons, (Button)v);
+            //resetOperButtonPressedStatus(operButtons, (Button)v);
             isNumberBefore = false;
         }
     };
@@ -250,32 +261,45 @@ public class MainActivity extends Super {
 
     private void delete() {
         String value;
-        Long dec = 0l;
+        long dec = 0;
 
         switch(calcType) {
             case AppContext.TYPE_BIN:
-                if (tevBinary.getText().length() == 1) {
-                    // do nothing;
+                if (tevBinary.getText().equals("") || tevBinary.getText().equals("0")) {
+                    reset();
                 } else {
                     value = String.valueOf(tevBinary.getText().subSequence(0, tevBinary.getText().length() - 1));
-                    dec = Long.valueOf(value, 2);
+
+                    if (value.equals("")) {
+                        reset();
+                    } else {
+                        dec = Long.valueOf(value, 2);
+                    }
                 }
 
                 break;
             case AppContext.TYPE_OCT:
-                if (tevOctonary.getText().length() == 1) {
-                    // do nothing;
+                if (tevOctonary.getText().equals("") || tevOctonary.getText().equals("0")) {
+                    reset();
                 } else {
                     value = String.valueOf(tevOctonary.getText().subSequence(0, tevOctonary.getText().length() - 1));
-                    dec = Long.valueOf(value, 8);
+                    if (value.equals("")) {
+                        reset();
+                    } else {
+                        dec = Long.valueOf(value, 8);
+                    }
                 }
                 break;
             case AppContext.TYPE_DEC:
-                if (tevDecimal.getText().length() == 1) {
-                    // do nothing;
+                if (tevDecimal.getText().equals("") || tevDecimal.getText().equals("0")) {
+                    reset();
                 } else {
                     value = String.valueOf(tevDecimal.getText().subSequence(0, tevDecimal.getText().length() - 1));
-                    dec = Long.valueOf(value);
+                    if (value.equals("")) {
+                        reset();
+                    } else {
+                        dec = Long.valueOf(value);
+                    }
                 }
                 break;
         }
@@ -283,23 +307,19 @@ public class MainActivity extends Super {
         setAllValue(dec, true);
     }
 
-//    protected void setFontSize(final TextView v, String value, int lineLimit) {
-//        if (v == tevBinary && v.getLineCount() == 1) {
-//            v.setTextSize((int)AppContext.getValue(AppContext.KEY_NUM_FONT_SIZE, false));
-//        }
-//
-//        super.setFontSize(v, value, lineLimit);
-//    }
-
     @Override
     protected void setAllValue(long dec, boolean isDel) {
-        super.setValue(tevDecimal, dec, AppContext.TYPE_DEC, isDel);
-        super.setValue(tevBinary, dec, AppContext.TYPE_BIN, isDel);
-        super.setValue(tevOctonary, dec, AppContext.TYPE_OCT, isDel);
+        if (dec == 0) {
+            reset();
+        } else {
+            super.setValue(tevDecimal, dec, AppContext.TYPE_DEC, isDel);
+            super.setValue(tevBinary, dec, AppContext.TYPE_BIN, isDel);
+            super.setValue(tevOctonary, dec, AppContext.TYPE_OCT, isDel);
+        }
     }
 
     @Override
-    public void reset() {
+    protected void reset() {
         super.reset();
 
         tevDecimal.setText("");
@@ -307,8 +327,16 @@ public class MainActivity extends Super {
         tevOctonary.setText("");
 
         float size = AppContext.getValue(AppContext.KEY_NUM_FONT_SIZE, false);
-        tevDecimal.setTextSize(size);
-        tevBinary.setTextSize(size);
-        tevOctonary.setTextSize(size);
+        tevDecimal.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        tevBinary.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        tevOctonary.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+    }
+
+    @Override
+    protected void resetOperButtonBg() {
+        btnPlus.setBackgroundResource(R.drawable.oper_plus);
+        btnMinus.setBackgroundResource(R.drawable.oper_minus);
+        btnDivide.setBackgroundResource(R.drawable.oper_divide);
+        btnMultiple.setBackgroundResource(R.drawable.oper_multiply);
     }
 }

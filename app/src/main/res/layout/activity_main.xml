@@ -34,7 +34,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#50bebebe"/>t
+        android:background="#50bebebe"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0px"
@@ -99,12 +99,12 @@
             android:layout_weight="0.5" />
 
         <Button
-            android:text="DEL"
             android:id="@+id/btnDel"
-            style="@style/NumberBtn" />
+            android:background="@drawable/backspace_button"
+            style="@style/DeleteBtn"/>
 
         <Button
-            android:text="/"
+            android:background="@drawable/oper_divide"
             android:id="@+id/btnDivide"
             style="@style/OperBtn" />
     </LinearLayout>
@@ -131,7 +131,7 @@
             style="@style/NumberBtn" />
 
         <Button
-            android:text="*"
+            android:background="@drawable/oper_multiply"
             android:id="@+id/btnMultip"
             style="@style/OperBtn" />
     </LinearLayout>
@@ -158,7 +158,7 @@
             style="@style/NumberBtn" />
 
         <Button
-            android:text="-"
+            android:background="@drawable/oper_minus"
             android:id="@+id/btnMinus"
             style="@style/OperBtn" />
     </LinearLayout>
@@ -185,7 +185,7 @@
             style="@style/NumberBtn" />
 
         <Button
-            android:text="+"
+            android:background="@drawable/oper_plus"
             android:id="@+id/btnPlus"
             style="@style/OperBtn" />
     </LinearLayout>
@@ -208,7 +208,7 @@
             style="@style/NumberBtn" />
 
         <Button
-            android:text="="
+            android:background="@drawable/oper_equals"
             android:id="@+id/btnEquals"
             style="@style/OperBtn" />
     </LinearLayout>

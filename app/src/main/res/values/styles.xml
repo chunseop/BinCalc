@@ -4,7 +4,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <style name="NumberBtn">
+    <style name="defaultTextColor">
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="NumberBtn" parent="defaultTextColor">
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">0.25</item>
@@ -12,21 +15,33 @@
         <item name="android:background">@drawable/number_button</item>
     </style>
 
-    <style name="OperBtn">
+    <style name="DeleteBtn" parent="defaultTextColor">
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">0.25</item>
-        <item name="android:textSize">38sp</item>
-        <item name="android:background">@drawable/oper_button</item>
+    </style>
+
+    <style name="OperBtn" parent="defaultTextColor">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">0.25</item>
+        <!--<item name="android:background">@drawable/oper_button</item>-->
     </style>
 
     <style name="HexNumBtn" parent="NumberBtn">
         <item name="android:textSize">26sp</item>
+        <item name="android:layout_weight">0.25</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/number_button</item>
     </style>
+
     <style name="HexTypeBtn" parent="HexNumBtn">
         <item name="android:background">@drawable/type_button</item>
+        <item name="android:textSize">25sp</item>
     </style>
+
     <style name="HexOperBtn" parent="OperBtn">
-        <item name="android:textSize">26sp</item>
+        <item name="android:layout_weight">0.25</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 </resources>
