@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="7.8"
@@ -49,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="4.8"
-        android:weightSum="7.1">
+        android:weightSum="7">
 
         <LinearLayout
             android:orientation="vertical"
@@ -61,30 +60,22 @@
             <Button
                 style="@style/HexNumBtn"
                 android:text="AC"
-                android:id="@+id/btnAcl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnAcl" />
 
             <Button
                 style="@style/HexNumBtn"
-                android:text="DEL"
-                android:id="@+id/btnDell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:background="@drawable/hex_backspace"
+                android:id="@+id/btnDell" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="+/-"
-                android:id="@+id/btnPNl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnPNl" />
 
             <Button
                 style="@style/HexNumBtn"
-                android:text="="
                 android:id="@+id/btnEqualsl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:background="@drawable/hex_equals" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,32 +86,27 @@
             android:weightSum="1" >
 
             <Button
-                style="@style/HexOperBtn"
-                android:text="/"
+                android:background="@drawable/hex_oper_divide"
                 android:id="@+id/btnDividel"
+                style="@style/HexOperBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <Button
-                style="@style/HexOperBtn"
-                android:text="*"
+                android:background="@drawable/hex_oper_multiply"
                 android:id="@+id/btnMultipl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/HexOperBtn" />
 
             <Button
-                style="@style/HexOperBtn"
-                android:text="+"
-                android:id="@+id/btnPlusl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                style="@style/HexOperBtn"
-                android:text="-"
+                android:background="@drawable/hex_oper_minus"
                 android:id="@+id/btnMinusl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/HexOperBtn" />
+
+            <Button
+                android:background="@drawable/hex_oper_plus"
+                android:id="@+id/btnPlusl"
+                style="@style/HexOperBtn" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -159,10 +145,10 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <View
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"/>
+        <!--<View-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="0.1"/>-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -174,30 +160,22 @@
             <Button
                 style="@style/HexNumBtn"
                 android:text="A"
-                android:id="@+id/btnA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnA" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="7"
-                android:id="@+id/btnSevenl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnSevenl" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="4"
-                android:id="@+id/btnFourl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnFourl" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="1"
-                android:id="@+id/btnOnel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnOnel" />
         </LinearLayout>
 
         <LinearLayout
@@ -210,30 +188,22 @@
             <Button
                 style="@style/HexNumBtn"
                 android:text="B"
-                android:id="@+id/btnB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnB" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="8"
-                android:id="@+id/btnEightl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnEightl" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="5"
-                android:id="@+id/btnFivel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnFivel" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="2"
-                android:id="@+id/btnTwol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnTwol" />
         </LinearLayout>
 
         <LinearLayout
@@ -246,30 +216,22 @@
             <Button
                 style="@style/HexNumBtn"
                 android:text="C"
-                android:id="@+id/btnC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnC" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="9"
-                android:id="@+id/btnNinel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnNinel" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="6"
-                android:id="@+id/btnSixl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnSixl" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="3"
-                android:id="@+id/btnThreel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnThreel" />
         </LinearLayout>
 
         <LinearLayout
@@ -282,30 +244,22 @@
             <Button
                 style="@style/HexNumBtn"
                 android:text="D"
-                android:id="@+id/btnD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnD" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="E"
-                android:id="@+id/btnE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnE" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="F"
-                android:id="@+id/btnF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnF" />
 
             <Button
                 style="@style/HexNumBtn"
                 android:text="0"
-                android:id="@+id/btnZerol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnZerol" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

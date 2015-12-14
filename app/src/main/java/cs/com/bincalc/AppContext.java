@@ -36,8 +36,7 @@ public class AppContext {
 
 	public static<T> T getValue(Class<?> cls, boolean remove) {
 		String key = cls.getName();
-		T t = (T)MyApplication.mInstance.loadObject(key,remove);
-		return t;
+		return (T)MyApplication.mInstance.loadObject(key,remove);
 	}
 	//TO store key-values
 	public static void putValue(String key, Object value) {
@@ -45,11 +44,6 @@ public class AppContext {
 	}
 
 	public static<T> T getValue(String key, boolean remove) {
-		T t = (T)MyApplication.mInstance.loadObject(key,remove);
-		return t;
-	}
-
-	public static int px2sp(float pxValue, float fontScale) {
-		return (int)(pxValue / fontScale + 0.5f);
+		return (T)MyApplication.mInstance.loadObject(key,remove);
 	}
 }

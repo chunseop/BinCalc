@@ -5,6 +5,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ public class Super extends Activity {
             return;
         }
         String dec = AppContext.getValue(AppContext.KEY_DEC_VALUE, true);
-        if (dec != null && dec != "") {
+        if (dec != null && !dec.equals("")) {
             setAllValue(Long.parseLong(dec));
         }
     }
@@ -86,19 +87,11 @@ public class Super extends Activity {
     protected void setFontSize(final TextView v, String value, int lineLimit, boolean del) {
         v.setText(value);
 
-        float size = 0;
         float orgSize = AppContext.getValue(AppContext.KEY_NUM_FONT_SIZE, false);
-//        if (del) {
-            size = enlargeText(v, lineLimit);
-//        } else {
-//            size = resizeText(v, lineLimit);
-//        }
-        Log.d("asf", "size: " + size);
-        float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
-        size = AppContext.px2sp(size, scaledDensity);
+        float size = enlargeText(v, lineLimit);
         size = size > orgSize ? orgSize : size;
 
-        v.setTextSize(size);
+        v.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
     protected void setValue(TextView v, long decValue, int type, boolean del) {
@@ -123,8 +116,13 @@ public class Super extends Activity {
         }
     }
 
-    public void reset() {
+    protected void resetOperButtonBg() {
+
+    }
+
+    protected void reset() {
         numQueue.clear();
+        resetOperButtonBg();
     }
 
     protected void inverse(long value) {
@@ -216,15 +214,15 @@ public class Super extends Activity {
         return layout.getLineCount();
     }
 
-    protected void resetOperButtonPressedStatus(Button[] operButtons, Button b) {
-        for (Button operButton : operButtons) {
-            if (operButton == b) {
-                b.setBackgroundResource(R.drawable.oper_button_pressed_style);
-            } else {
-                operButton.setBackgroundResource(R.drawable.oper_button);
-            }
-        }
-    }
+//    protected void resetOperButtonPressedStatus(Button[] operButtons, Button b) {
+//        for (Button operButton : operButtons) {
+//            if (operButton == b) {
+//                b.setBackgroundResource(R.drawable.oper_button_pressed_style);
+//            } else {
+//                operButton.setBackgroundResource(R.drawable.oper_button);
+//            }
+//        }
+//    }
 
     protected void resetTypeButtonPressedStatus(Button[] typeButtons, Button b) {
         for (Button typeButton : typeButtons) {
@@ -239,18 +237,16 @@ public class Super extends Activity {
     public void inputNumberAppend(String i) {
         if (calcType == AppContext.TYPE_BIN && Integer.parseInt(i) > 1) {
             Toast.makeText(this, R.string.msg_binary_input_error, Toast.LENGTH_SHORT).show();
-            return;
         }
 
         if (calcType == AppContext.TYPE_OCT && Integer.parseInt(i) > 8) {
             Toast.makeText(this, R.string.msg_octonary_input_error, Toast.LENGTH_SHORT).show();
-            return;
         }
     }
 
     public String getTextValue(TextView t) {
         String text = String.valueOf(t.getText());
-        if (text == null || text == "") {
+        if (text == null || text.equals("")) {
             return "0";
         } else {
             return text;

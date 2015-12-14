@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient
-        android:startColor="#20bebebe"
-        android:endColor="#20bebebe" />
+        android:startColor="@color/btnType"
+        android:endColor="@color/btnType" />
         <!--android:angle="270" />-->
     <!--<corners android:radius="3dp" />-->
     <stroke
         android:width="1px"
-        android:color="@color/btnboarder" />
+        android:color="@color/btnBoarder" />
 </shape>

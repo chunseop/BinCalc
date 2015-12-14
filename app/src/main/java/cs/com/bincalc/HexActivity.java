@@ -2,14 +2,15 @@ package cs.com.bincalc;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HexActivity extends Super {
     private TextView tevDec, tevBin, tevOct, tevHex;
-    private Button[] operButtons;
+    private Button btnHexl;
+    private Button btnPlusl, btnMinusl, btnDividel, btnMultiplel, btnEqualsl;
     private Button[] typeButtons;
 
     @Override
@@ -18,8 +19,8 @@ public class HexActivity extends Super {
         setContentView(R.layout.activity_hex);
 
         Button btnAcl, btnPnl, btnDell;
-        Button btnDecl, btnBinl, btnOctl, btnHexl;
-        Button btnPlusl, btnMinusl, btnDividel, btnMultiplel, btnEqualsl;
+        Button btnDecl, btnBinl, btnOctl;
+
         Button btnZerol, btnOnel, btnTwol, btnThreel, btnFourl, btnFivel, btnSixl,
                 btnSevenl, btnEightl, btnNinel, btnA, btnB, btnC, btnD, btnE, btnF;
 
@@ -41,7 +42,6 @@ public class HexActivity extends Super {
         btnEqualsl = (Button)findViewById(R.id.btnEqualsl);
         btnPnl = (Button)findViewById(R.id.btnPNl);
 
-        operButtons = new Button[] { btnPlusl, btnMinusl, btnMultiplel, btnDividel};
         typeButtons = new Button[] { btnBinl, btnOctl, btnDecl, btnHexl };
 
         btnZerol = (Button)findViewById(R.id.btnZerol);
@@ -70,6 +70,14 @@ public class HexActivity extends Super {
         if (getIntent().getExtras() != null) {
             calcType = getIntent().getExtras().getInt(AppContext.CALC_TYPE);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        float fontSize = tevDec.getTextSize();
+        AppContext.putValue(AppContext.KEY_NUM_FONT_SIZE, fontSize);
+
         btnHexl.callOnClick();
     }
 
@@ -89,6 +97,11 @@ public class HexActivity extends Super {
                     reset();
                     break;
                 case R.id.btnPNl:
+                    if (tevDec.getText().equals("") || tevDec.getText().equals("0")) {
+                        reset();
+                        break;
+                    }
+
                     Long value = Long.parseLong(String.valueOf(tevDec.getText()));
                     inverse(value);
                     break;
@@ -134,6 +147,8 @@ public class HexActivity extends Super {
                 calc();
             }
 
+            resetOperButtonBg();
+
             switch(v.getId()) {
                 case R.id.btnPlusl:
                     myOperator = AppContext.OPER_PLUS;
@@ -152,7 +167,7 @@ public class HexActivity extends Super {
                     break;
             }
 
-            resetOperButtonPressedStatus(operButtons, (Button)v);
+            //resetOperButtonPressedStatus(operButtons, (Button)v);
             isNumberBefore = false;
         }
     };
@@ -217,28 +232,40 @@ public class HexActivity extends Super {
 
         switch(calcType) {
             case AppContext.TYPE_BIN:
-                if (tevBin.getText().length() == 1) {
-                    // do nothing;
+                if (tevBin.getText().equals("") || tevBin.getText().equals("0")) {
+                    reset();
                 } else {
                     value = String.valueOf(tevBin.getText().subSequence(0, tevBin.getText().length() - 1));
-                    dec = Long.valueOf(value, 2);
+                    if (value.equals("")) {
+                        reset();
+                    } else {
+                        dec = Long.valueOf(value, 2);
+                    }
                 }
 
                 break;
             case AppContext.TYPE_DEC:
-                if (tevDec.getText().length() == 1) {
-                    // do nothing;
+                if (tevDec.getText().equals("") || tevDec.getText().equals("0")) {
+                    reset();
                 } else {
                     value = String.valueOf(tevDec.getText().subSequence(0, tevDec.getText().length() - 1));
-                    dec = Long.valueOf(value);
+                    if (value.equals("")) {
+                        reset();
+                    } else {
+                        dec = Long.valueOf(value);
+                    }
                 }
                 break;
             case AppContext.TYPE_HEX:
-                if (tevHex.getText().length() == 1) {
-                    // do nothing;
+                if (tevHex.getText().equals("") || tevHex.getText().equals("0")) {
+                    reset();
                 } else {
                     value = String.valueOf(tevHex.getText().subSequence(0, tevHex.getText().length() - 1));
-                    dec = Long.valueOf(value);
+                    if (value.equals("")) {
+                        reset();
+                    } else {
+                        dec = Long.valueOf(value, 16);
+                    }
                 }
                 break;
         }
@@ -248,14 +275,18 @@ public class HexActivity extends Super {
 
     /**
      *
-     * @param dec
+     * @param dec: decimal value
      * @param isDel: 是否是删除操作的值重置
      */
     @Override
     public void setAllValue(long dec, boolean isDel) {
-        setValue(tevDec, dec, AppContext.TYPE_DEC, isDel);
-        setValue(tevBin, dec, AppContext.TYPE_BIN, isDel);
-        setValue(tevHex, dec, AppContext.TYPE_HEX, isDel);
+        if (dec == 0) {
+            reset();
+        } else {
+            setValue(tevDec, dec, AppContext.TYPE_DEC, isDel);
+            setValue(tevBin, dec, AppContext.TYPE_BIN, isDel);
+            setValue(tevHex, dec, AppContext.TYPE_HEX, isDel);
+        }
     }
 
     @Override
@@ -267,8 +298,16 @@ public class HexActivity extends Super {
         tevHex.setText("");
 
         float textSize = AppContext.getValue(AppContext.KEY_NUM_FONT_SIZE, false);
-        tevDec.setTextSize(textSize);
-        tevBin.setTextSize(textSize);
-        tevHex.setTextSize(textSize);
+        tevDec.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        tevBin.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        tevHex.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+    }
+
+    @Override
+    protected void resetOperButtonBg() {
+        btnPlusl.setBackgroundResource(R.drawable.hex_oper_plus);
+        btnMinusl.setBackgroundResource(R.drawable.hex_oper_minus);
+        btnDividel.setBackgroundResource(R.drawable.hex_oper_divide);
+        btnMultiplel.setBackgroundResource(R.drawable.hex_oper_multiply);
     }
 }
