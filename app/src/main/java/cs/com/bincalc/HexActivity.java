@@ -12,6 +12,7 @@ public class HexActivity extends Super {
     private Button btnHexl;
     private Button btnPlusl, btnMinusl, btnDividel, btnMultiplel, btnEqualsl;
     private Button[] typeButtons;
+//    private BackPressClose backClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +68,19 @@ public class HexActivity extends Super {
         super.setListener(lisNumber, btnZerol, btnOnel, btnTwol, btnThreel, btnFourl, btnFivel, btnSixl,
                 btnSevenl, btnEightl, btnNinel, btnA, btnB, btnC, btnD, btnE, btnF);
 
-        if (getIntent().getExtras() != null) {
-            calcType = getIntent().getExtras().getInt(AppContext.CALC_TYPE);
-        }
+        //backClose = new BackPressClose(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         float fontSize = tevDec.getTextSize();
         AppContext.putValue(AppContext.KEY_NUM_FONT_SIZE, fontSize);
+
+        if (getIntent().getExtras() != null) {
+            calcType = getIntent().getExtras().getInt(AppContext.CALC_TYPE);
+        }
 
         btnHexl.callOnClick();
     }
@@ -87,6 +91,12 @@ public class HexActivity extends Super {
         if (tevDec.getText() != null) {
             AppContext.putValue(AppContext.KEY_DEC_VALUE, tevDec.getText());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //backClose.onBackPressed();
+        finish();
     }
 
     private View.OnClickListener lisSys = new View.OnClickListener() {
@@ -126,6 +136,7 @@ public class HexActivity extends Super {
                     Intent intent = new Intent(HexActivity.this, MainActivity.class);
                     intent.putExtra(AppContext.CALC_TYPE, AppContext.TYPE_OCT);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.btnHexl:
                     calcType = AppContext.TYPE_HEX;
@@ -181,9 +192,8 @@ public class HexActivity extends Super {
             case AppContext.TYPE_DEC:
             {
                 String txtDec = tevDec.getText().toString();
-                dec = Long.parseLong(txtDec);
                 try {
-                    dec = dec == 0 ? Long.parseLong(i) : Long.parseLong(txtDec + i);
+                    dec = Long.parseLong(txtDec + i);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     return;
@@ -193,15 +203,11 @@ public class HexActivity extends Super {
             case AppContext.TYPE_BIN:
             {
                 String txtBin = tevBin.getText().toString();
-                if (txtBin.equals("0")) {
+                try {
                     dec = Long.valueOf(txtBin + i, 2);
-                } else {
-                    try {
-                        dec = Long.valueOf(txtBin + i, 2);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        return;
-                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return;
                 }
 
                 break;
@@ -209,15 +215,11 @@ public class HexActivity extends Super {
             case AppContext.TYPE_HEX:
             {
                 String txtOct = tevHex.getText().toString();
-                if (txtOct.equals("0")) {
+                try {
                     dec = Long.valueOf(txtOct + i, 16);
-                } else {
-                    try {
-                        dec = Long.valueOf(txtOct + i, 16);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        return;
-                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return;
                 }
                 break;
             }

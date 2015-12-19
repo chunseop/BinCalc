@@ -2,8 +2,6 @@ package cs.com.bincalc;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,16 +11,17 @@ import android.widget.TextView;
 
 public class MainActivity extends Super {
     private TextView tevDecimal, tevBinary, tevOctonary;
-    //private Button[] operButtons;
+    private Button btnDec, btnBin, btnOct, btnHex;
     private Button[] typeButtons;
     private Button btnPlus, btnMinus, btnDivide, btnMultiple, btnEquals;
+    private BackPressClose backClose;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Button btnAc, btnPn, btnDel;
-        Button btnDec, btnBin, btnOct, btnHex;
         Button btnZero, btnOne, btnTwo, btnThree, btnFour,
                 btnFive, btnSix, btnSeven, btnEight, btnNine;
 
@@ -65,6 +64,12 @@ public class MainActivity extends Super {
         super.setListener(lisNumber, btnZero, btnOne, btnTwo, btnThree, btnFour,
                 btnFive, btnSix, btnSeven, btnEight, btnNine);
 
+        backClose = new BackPressClose(this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+
         if (getIntent().getExtras() != null) {
             calcType = getIntent().getIntExtra(AppContext.CALC_TYPE, AppContext.TYPE_DEC);
         }
@@ -83,10 +88,6 @@ public class MainActivity extends Super {
                 btnHex.callOnClick();
                 break;
         }
-    }
-
-    protected void onResume() {
-        super.onResume();
 
         float fontSize = tevDecimal.getTextSize();
         AppContext.putValue(AppContext.KEY_NUM_FONT_SIZE, fontSize);
@@ -107,9 +108,14 @@ public class MainActivity extends Super {
             super.onWindowFocusChanged(hasFocus);
 //            AppContext.putValue(AppContext.KEY_NUM_VER_PADDING, tevDecimal.getTotalPaddingTop() + tevDecimal.getTotalPaddingBottom());
 //            AppContext.putValue(AppContext.KEY_NUM_HOR_PADDING, tevDecimal.getTotalPaddingStart() + tevDecimal.getTotalPaddingEnd());
-            Log.d("TAG", "textColor: " + typeButtons[0].getCurrentTextColor());
-            Log.d("TAG", "textColor: " + typeButtons[0].getTextColors());
+//            Log.d("TAG", "textColor: " + typeButtons[0].getCurrentTextColor());
+//            Log.d("TAG", "textColor: " + typeButtons[0].getTextColors());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        backClose.onBackPressed();
     }
 
     private OnClickListener lisSys = new OnClickListener() {
@@ -149,10 +155,10 @@ public class MainActivity extends Super {
                     calcType = AppContext.TYPE_OCT;
                     break;
                 case R.id.btnHex:
-                    // calcType = TYPE_HEX;
                     Intent intent = new Intent(MainActivity.this, HexActivity.class);
                     intent.putExtra(AppContext.CALC_TYPE, AppContext.TYPE_HEX);
                     startActivity(intent);
+                    //finish();
                     break;
             }
 
@@ -209,15 +215,11 @@ public class MainActivity extends Super {
             case AppContext.TYPE_DEC:
             {
                 String txtDec = getTextValue(tevDecimal);
-                if (txtDec.equals("0")) {
-                    dec = Long.parseLong(i);
-                } else {
-                    try {
-                        dec = Long.parseLong(tevDecimal.getText() + i);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        return;
-                    }
+                try {
+                    dec = Long.parseLong(txtDec + i);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return;
                 }
 
                 break;
@@ -225,15 +227,11 @@ public class MainActivity extends Super {
             case AppContext.TYPE_BIN:
             {
                 String txtBin = getTextValue(tevBinary);
-                if (txtBin.equals("0")) {
+                try {
                     dec = Long.valueOf(txtBin + i, 2);
-                } else {
-                    try {
-                        dec = Long.valueOf(txtBin + i, 2);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        return;
-                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return;
                 }
 
                 break;
@@ -241,15 +239,11 @@ public class MainActivity extends Super {
             case AppContext.TYPE_OCT:
             {
                 String txtOct = getTextValue(tevOctonary);
-                if (txtOct.equals("0")) {
+                try {
                     dec = Long.valueOf(txtOct + i, 8);
-                } else {
-                    try {
-                        dec = Long.valueOf(txtOct + i, 8);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        return;
-                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return;
                 }
 
                 break;

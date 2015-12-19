@@ -88,9 +88,7 @@
             <Button
                 android:background="@drawable/hex_oper_divide"
                 android:id="@+id/btnDividel"
-                style="@style/HexOperBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/HexOperBtn" />
 
             <Button
                 android:background="@drawable/hex_oper_multiply"
@@ -119,30 +117,22 @@
             <Button
                 style="@style/HexTypeBtn"
                 android:text="DEC"
-                android:id="@+id/btnDecl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnDecl" />
 
             <Button
                 style="@style/HexTypeBtn"
                 android:text="BIN"
-                android:id="@+id/btnBinl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnBinl" />
 
             <Button
                 style="@style/HexTypeBtn"
                 android:text="OCT"
-                android:id="@+id/btnOctl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnOctl" />
 
             <Button
                 style="@style/HexTypeBtn"
                 android:text="HEX"
-                android:id="@+id/btnHexl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/btnHexl" />
         </LinearLayout>
 
         <!--<View-->

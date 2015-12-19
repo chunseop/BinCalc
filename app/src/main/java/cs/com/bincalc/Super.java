@@ -1,6 +1,7 @@
 package cs.com.bincalc;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -38,6 +39,12 @@ public class Super extends Activity {
     };
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);  // must store the new intent unless getIntent() will return the old one
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -48,7 +55,9 @@ public class Super extends Activity {
             return;
         }
         String dec = AppContext.getValue(AppContext.KEY_DEC_VALUE, true);
-        if (dec != null && !dec.equals("")) {
+        if (dec == null || dec.equals("")) {
+            reset();
+        } else {
             setAllValue(Long.parseLong(dec));
         }
     }
@@ -235,12 +244,20 @@ public class Super extends Activity {
     }
 
     public void inputNumberAppend(String i) {
-        if (calcType == AppContext.TYPE_BIN && Integer.parseInt(i) > 1) {
-            Toast.makeText(this, R.string.msg_binary_input_error, Toast.LENGTH_SHORT).show();
-        }
+        try {
+            if (calcType == AppContext.TYPE_BIN && Integer.parseInt(i, 16) > 1) {
+                Toast.makeText(this, R.string.msg_binary_input_error, Toast.LENGTH_SHORT).show();
+            }
 
-        if (calcType == AppContext.TYPE_OCT && Integer.parseInt(i) > 8) {
-            Toast.makeText(this, R.string.msg_octonary_input_error, Toast.LENGTH_SHORT).show();
+            if (calcType == AppContext.TYPE_OCT && Integer.parseInt(i, 16) > 8) {
+                Toast.makeText(this, R.string.msg_octonary_input_error, Toast.LENGTH_SHORT).show();
+            }
+
+            if (calcType == AppContext.TYPE_DEC && Integer.parseInt(i, 16) > 9) {
+                Toast.makeText(this, R.string.msg_decimal_input_error, Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 
